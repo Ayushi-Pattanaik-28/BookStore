@@ -5,8 +5,8 @@ import dotenv from 'dotenv';
 import pool from './config/db.js'; // Import the pool here
 
 // Import routes and middlewares
-import productRoute from './routes/productRoute.js';
-import authRoute from './routes/authRoute.js';
+import bookRoute from './routes/bookRoute.js';
+import userRoute from './routes/userRoute.js';
 
 import { authGuard } from './middlewares/authGuard.js';
 
@@ -29,8 +29,8 @@ mongoose.connect(MONGO_URL)
     .catch((error) => console.log("MongoDB connection error: ", error));
 
 // Define routes
-app.use('/api/products', productRoute); // Product routes (MongoDB)
-app.use('/api/auth', authRoute); // Authentication routes (PostgreSQL)
+app.use('/api', productRoute); // Product routes (MongoDB)
+app.use('/api', authRoute); // Authentication routes (PostgreSQL)
 app.delete('/api/loginusers/delete/:id', async (req, res) => {
   const userId = req.params.id;
   try {
@@ -58,16 +58,7 @@ app.get('/api/protected', authGuard, (req, res) => {
     res.json({ message: 'Welcome to the protected route' });
 });
 
-// Test PostgreSQL connection using the pool
-pool.connect((err, client) => {
-    if (err) {
-        console.error("Error in PostgreSQL connection:", err);
-        return; // Exit if there's an error
-    } else {
-        console.log("Connected to PostgreSQL successfully.");
-        client.release(); // Release the client
-    }
-});
+
 
 // Start the server
 app.listen(PORT, () => {
