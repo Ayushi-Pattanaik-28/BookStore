@@ -5,7 +5,7 @@ const route = express.Router();
 
 route.post("/create", create);
 
-route.get("/getAll", getAll);
+route.get("/get-all-books", getAll);
 
 route.get("/getOne/:id", getOne);
 
