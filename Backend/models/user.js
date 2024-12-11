@@ -26,7 +26,7 @@ const user = new mongoose.Schema({
 
     avatar: {
         type: String,
-        default: img,
+        default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaE2BltUbxcYgIL1vgkYLToA4xb5wOmq6fZA&s",
     },
 
     role: {
