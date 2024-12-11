@@ -27,4 +27,23 @@ router.post("/add-book", authenticateToken, async (req, res) => {
     }
 });
 
-module.exports = router;
+//update-book
+router.put("/update-book" , authenticateToken, async(req,res) => {
+    try{
+        const { bookid } = req.headers;
+        await Book.findByIdAndUpdate(bookid, {
+            url: req.body.url,
+            title: req.body.title,
+            author: req.body.author,
+            price: req.body.price,
+            description: req.body.description,
+            language: req.body.language,
+        });
+
+        return res.status(200).json({ message: "Book updated successfully" });
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+module.exports = router; 

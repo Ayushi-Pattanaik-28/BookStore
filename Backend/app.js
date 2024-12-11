@@ -3,12 +3,14 @@ const app = express();
 
 require("dotenv").config();
 require("./conn/conn");
-const user = require("./routes/userRoutes");
+const User = require("./routes/userRoutes");
+const Books = require("./routes/bookRoutes")
 
 app.use(express.json());
 
 //routes
-app.use("/api", user);
+app.use("/api", User);
+app.use("/api", Books);
 
 //creating Port
 app.listen(process.env.PORT, () => {
