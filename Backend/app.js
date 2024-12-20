@@ -6,6 +6,7 @@ require("./conn/conn");
 const User = require("./routes/userRoutes");
 const Books = require("./routes/bookRoutes");
 const Favourites = require("./routes/favouritesRoutes");
+const Cart = require("./routes/cartRoutes");
 
 app.use(express.json());
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use("/api", User);
 app.use("/api", Books);
 app.use("/api", Favourites);
+app.use("/api", Cart);
 
 //creating Port
 app.listen(process.env.PORT, () => {
