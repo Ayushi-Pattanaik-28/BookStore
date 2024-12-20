@@ -4,13 +4,15 @@ const app = express();
 require("dotenv").config();
 require("./conn/conn");
 const User = require("./routes/userRoutes");
-const Books = require("./routes/bookRoutes")
+const Books = require("./routes/bookRoutes");
+const Favourites = require("./routes/favouritesRoutes");
 
 app.use(express.json());
 
 //routes
 app.use("/api", User);
 app.use("/api", Books);
+app.use("/api", Favourites);
 
 //creating Port
 app.listen(process.env.PORT, () => {
