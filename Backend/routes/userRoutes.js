@@ -87,18 +87,21 @@ router.post("/sign-in", async (req,res) => {
   }
 });
 
-//Get user information
-router.get("/get-user-information" , authenticateToken, async (req, res) => {
-  try{
-    const { id } = req.headers;
+// Get user information
+router.get("/get-user-information", authenticateToken, async (req, res) => {
+  try {
+    // Access user ID from the JWT payload (stored in req.user after authentication)
+    const { id } = req.user; // Use the id from the decoded token
+    
     const data = await User.findById(id).select('-password');
     return res.status(200).json(data);
 
-  } catch(error) {
+  } catch (error) {
+    console.error("Error fetching user data:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-
 });
+
 
 //Update address
 router.put("/update-address" , authenticateToken, async (req, res) => {

@@ -116,7 +116,7 @@ const Cart = () => {
                 const totalPrice = isNaN(price) ? 0 : (price * quantity);
 
                 return (
-                  <div key={item._id} className="flex items-center justify-between bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 ease-in-out">
+                  <div key={item._id} className="flex items-center justify-between bg-slate-500 rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 ease-in-out">
                     <div className="flex items-center space-x-4">
                       <img
                         src={item.url}
