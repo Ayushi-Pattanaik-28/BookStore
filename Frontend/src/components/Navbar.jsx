@@ -24,6 +24,8 @@ const Navbar = () => {
     }
 
     const [MobileNav, setMobileNav] = useState("hidden");
+    console.log("isLoggedIn:", isLoggedIn);
+
 
     return (
         <>
@@ -45,11 +47,12 @@ const Navbar = () => {
                         ))}
                     </div>
                     {isLoggedIn === false && (
-                        <>
-                            <Link to="/login" className="hover:text-blue-400 transition-all duration-300">Login</Link>
-                            <Link to="/signup" className="hover:text-blue-400 transition-all duration-300">Sign Up</Link>
-                        </>
-                    )}
+    <>
+        <Link to="/login" className="hover:text-blue-400 transition-all duration-300">Login</Link>
+        <Link to="/signup" className="hover:text-blue-400 transition-all duration-300">Sign Up</Link>
+    </>
+)}
+
                     <button 
                         className='block md:hidden text-white text-2xl hover:text-zinc-400'
                         onClick={() => setMobileNav(MobileNav === "hidden" ? "block" : "hidden")}

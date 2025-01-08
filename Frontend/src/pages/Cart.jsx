@@ -41,7 +41,7 @@ const Cart = () => {
       console.error("Invalid book ID:", bookId);
       return;
     }
-  
+
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -50,10 +50,9 @@ const Cart = () => {
         return;
       }
 
-  
       const response = await axios.put(`http://localhost:1000/api/remove-from-cart/${bookId}`, {}, { headers });
       alert(response.data.message);
-  
+
       setCart((prevCart) => {
         const updatedCart = prevCart.filter(item => item.id !== bookId && item._id !== bookId);
         const updatedTotal = updatedCart.reduce((acc, item) => {
@@ -63,7 +62,6 @@ const Cart = () => {
             return acc + (price * quantity);
           }
           return acc;
-        
         }, 0);
         setTotal(updatedTotal);
         return updatedCart;
@@ -77,10 +75,7 @@ const Cart = () => {
         alert("Error removing item from cart.");
       }
     }
-    const x = localStorage.getItem("true");
-    console.log(x, "fsdljbkfjds" )
   };
-  
 
   const handleCheckout = () => {
     alert("Thank you for ordering! Your cart is now empty.");
@@ -115,15 +110,13 @@ const Cart = () => {
             </div>
           ) : (
             <div className="space-y-4">
-              {cart.map((item ) => {
+              {cart.map((item) => {
                 const price = parseFloat(item.price);
                 const quantity = parseInt(item.quantity) || 1;
-                const totalPrice = isNaN(price) ? 0 : (price * quantity
-              );
-            
+                const totalPrice = isNaN(price) ? 0 : (price * quantity);
 
                 return (
-                  <div key={ item._id } className="flex items-center justify-between bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 ease-in-out">
+                  <div key={item._id} className="flex items-center justify-between bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 ease-in-out">
                     <div className="flex items-center space-x-4">
                       <img
                         src={item.url}
@@ -141,18 +134,15 @@ const Cart = () => {
                     >
                       Remove
                     </button>
-                 
                   </div>
-                   
                 );
               })}
-
             </div>
           )}
 
           {cart.length > 0 && (
             <div className="mt-6 flex justify-between items-center bg-gray-100 p-4 rounded-lg">
-              <h2 className="text-2xl font-semibold text-gray-800">Total: Rs. {(total).toFixed(2)}</h2>
+              <h2 className="text-2xl font-semibold text-gray-800">Total: Rs. {total.toFixed(2)}</h2>
               <button
                 onClick={handleCheckout}
                 className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-200"
