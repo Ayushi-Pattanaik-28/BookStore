@@ -2,115 +2,42 @@ const router = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { authenticateToken } = require("./userAuth");
 
-// Sign-Up
-router.post("/sign-up", async (req, res) => {
+// Sign-In
+router.post("/sign-in", async (req, res) => {
   try {
-    const { username, email, password, address } = req.body;
-
-    // Validate required fields
-    if (!username || !email || !password || !address) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-
-    // Check username length
-    if (username.length <= 3) {
-      return res.status(400).json({ message: "Username length should be greater than 3" });
-    }
-
-    // Check if username already exists
-    const existingUsername = await User.findOne({ username });
-    if (existingUsername) {
-      return res.status(400).json({ message: "Username already exists" });
-    }
-
-    // Check if email already exists
-    const existingEmail = await User.findOne({ email });
-    if (existingEmail) {
-      return res.status(400).json({ message: "Email already exists" });
-    }
-
-    // Check password length
-    if (password.length <= 5) {
-      return res.status(400).json({ message: "Password length should be greater than 5" });
-    }
-
-    const hashPass = await bcrypt.hash(password,10);
-
-    // Save user to database
-    const newUser = new User({ 
-      username: username, 
-      email: email, 
-      password: hashPass, 
-      address: address, 
-    });
-    await newUser.save();
-
-    res.status(201).json({ message: "SignUp Successfully" });
-  } catch (error) {
-    console.error("Error in sign-up route:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-//Login
-router.post("/sign-in", async (req,res) => {
-  try {
-    const { username, password } =  req.body;
+    const { username, password } = req.body;
 
     const existingUser = await User.findOne({ username });
-    if (!existingUser)
-    {
-      res.status(400).json({ message: "Invalid Credentials"})
-    } 
+    if (!existingUser) {
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
 
-    await bcrypt.compare(password, existingUser.password, (err, data) => {
-      if (data)
-      {
-        const authClaims = [
-          { name: existingUser.username },
-          { name: existingUser.role },
-        ];
-        const token = jwt.sign({authClaims}, process.env.JWT_SECRET_KEY , {expiresIn:"30d"});
-        res.status(200).json({ id: existingUser._id, 
-          role: existingUser.role,
-          token: token,
-        }); 
-      } else {
-        res.status(400).json({ message: "Invalid Credentials" });
-      }
-    }) 
+    const isMatch = await bcrypt.compare(password, existingUser.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
 
-  }catch(error){
-    res.status(400).json({message:"Internal server error"});
-  }
-});
+    const token = jwt.sign(
+      { id: existingUser._id },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "30d" }
+    );
 
-// Get user information
-router.get("/get-user-information", authenticateToken, async (req, res) => {
-  try {
-    // Access user ID from the JWT payload (stored in req.user after authentication)
-    const { id } = req.user; // Use the id from the decoded token
-    
-    const data = await User.findById(id).select('-password');
-    return res.status(200).json(data);
+    const { _id, email, role, address } = existingUser;
 
+    res.status(200).json({
+      token,
+      user: {
+        id: _id,
+        username,
+        email,
+        role,
+        address,
+      },
+    });
   } catch (error) {
-    console.error("Error fetching user data:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-
-//Update address
-router.put("/update-address" , authenticateToken, async (req, res) => {
-  try{
-    const { id } = req.headers;
-    const { address } = req.body;
-    await User.findByIdAndUpdate(id, { address: address });
-    return res.status(200).json({ message: "Address updated successfully" });
-  } catch (error) {
+    console.error("Login error:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });

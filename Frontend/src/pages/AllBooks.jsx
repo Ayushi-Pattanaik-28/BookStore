@@ -21,9 +21,7 @@ const AllBooks = () => {
         {Data && Data.map((item, i) => (
           <div key={i}>
             {/* Wrap BookCard with Link */}
-            <Link to={`/book-details/${item._id}`}>
-              <BookCard data={item} />
-            </Link>
+            <BookCard data={item} />
           </div>
         ))}
       </div>

@@ -1,64 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import SideBar from '../components/Profile/SideBar';
-import AdminSideBar from '../components/Profile/AdminSideBar'; // Admin sidebar import
+import { logout } from '../store/auth'; // ✅ Import logout action
 
 const Profile = () => {
-    const [profileData, setProfileData] = useState(null);
+  const reduxUser = useSelector((state) => state.auth.user);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const headers = {
-        id: localStorage.getItem("id"),
-        authorization: `Bearer ${localStorage.getItem("token")}`, // Corrected the authorization header
-    };
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const token = localStorage.getItem('token');
 
-    const navigate = useNavigate();
+    if (!token || !storedUser) {
+      navigate('/login');
+    } else {
+      setUser(reduxUser || storedUser);
+    }
+  }, [reduxUser, navigate]);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get("http://localhost:1000/api/get-user-information", { headers });
-                setProfileData(response.data);
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
-        };
+  const handleLogout = () => {
+    // ✅ Clear all stored user data
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+    localStorage.removeItem('role');
 
-        fetchUserData();
-    }, []);
+    // ✅ Dispatch redux logout action
+    dispatch(logout());
 
-    const handleLogout = () => {
-        // Clear localStorage to remove user session
-        localStorage.removeItem("id");
-        localStorage.removeItem("token");
-        navigate('/login');
-    };
+    // ✅ Redirect to login page
+    navigate('/login');
+  };
 
-    // Check if the logged-in user is an admin
-    const isAdmin = profileData?.role === 'admin'; // Assuming 'role' is part of user data
+  if (!user) {
+    return <div className="text-white text-center mt-10">Loading user data...</div>;
+  }
 
-    return (
-        <div className='bg-zinc-900 px-2 md:px-12 flex flex-col md:flex-row h-screen py-8 gap-4 text-white'>
-            {!profileData ? (
-                <h1>Loading...</h1>
-            ) : (
-                <>
-                    {/* Sidebar based on user role */}
-                    {isAdmin ? (
-                        <AdminSideBar data={profileData} handleLogout={handleLogout} />
-                    ) : (
-                        <SideBar data={profileData} handleLogout={handleLogout} />
-                    )}
-
-                    <div className="flex-1 p-6">
-                        {/* Add profile content here */}
-                    </div>
-                </>
-            )}
-
-           
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-zinc-800">
+      <div className="bg-gradient-to-r from-indigo-500 via-purple-700 to-pink-500 p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-2xl font-bold text-black mb-6 text-center">User Profile</h1>
+        <div className="text-black font-medium space-y-4">
+          <p><span className="font-semibold">Username:</span> {user.username || 'N/A'}</p>
+          <p><span className="font-semibold">Email:</span> {user.email || 'N/A'}</p>
+          <p><span className="font-semibold">Role:</span> {user.role || 'N/A'}</p>
+          <p><span className="font-semibold">Address:</span> {user.address || 'N/A'}</p>
         </div>
-    );
+
+        <button
+          className="mt-6 w-full bg-red-500 text-white py-2 rounded-md font-semibold hover:bg-red-600 transition-colors"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default Profile;

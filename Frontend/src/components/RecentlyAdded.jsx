@@ -19,7 +19,6 @@ const RecentlyAdded = () => {
 
           </div>
         ))}
-    
     </div>
     </div>
     

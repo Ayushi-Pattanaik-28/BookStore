@@ -1,96 +1,99 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaGripLines } from "react-icons/fa";
-import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store/auth';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
-    const links = [
-        { title: 'Home', link: "/" },
-        { title: "About Us", link: "/about-us" },
-        { title: "All Books", link: "/all-books" },
-        { title: "Cart", link: "/cart" },
-        { title: "Profile", link: "/profile" },
-    ];
+  const [isOpen, setIsOpen] = useState(false);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-    const role = useSelector((state) => state.auth.role);  
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
-    // Remove "Cart" link if admin is logged in, but keep "Profile" link
-    if (isLoggedIn && role === 'admin') {
-        const cartIndex = links.findIndex(link => link.title === 'Cart');
-        if (cartIndex !== -1) {
-            links.splice(cartIndex, 1);  // Removes the "Cart" link only
-        }
-    }
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.clear();
+    navigate('/login');
+  };
 
-    const [MobileNav, setMobileNav] = useState("hidden");
-    console.log("isLoggedIn:", isLoggedIn);
+  return (
+    <nav className="bg-zinc-900 text-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <Link to="/" className="text-2xl font-bold text-pink-400">
+          BookVerse
+        </Link>
 
+        {/* Desktop Menu */}
+        <div className="hidden md:flex gap-6 items-center text-white">
+          <Link to="/" className="hover:text-pink-400">Home</Link>
+          <Link to="/all-books" className="hover:text-pink-400">Books</Link>
+          <Link to="/about-us" className="hover:text-pink-400">About</Link>
 
-    return (
-        <>
-            <nav className='z-50 relative flex bg-zinc-800 text-white px-8 py-4 items-center justify-between'>
-                <Link to="/" className='flex items-center'>
-                    <img className="h-10 me-4" src='' alt='logo' />
-                    <h1 className='text-3xl font-bold'>Bookstore</h1>
-                </Link>
-                <div className='nav-links-bookstore block md:flex items-center gap-4'>
-                    <div className='hidden md:flex gap-4'>
-                        {links.map((items, i) => (
-                            <Link 
-                                to={items.link} 
-                                className='hover:text-blue-400 transition-all duration-300' 
-                                key={i}
-                            >
-                                {items.title}
-                            </Link>
-                        ))}
-                    </div>
-                    {isLoggedIn === false && (
-    <>
-        <Link to="/login" className="hover:text-blue-400 transition-all duration-300">Login</Link>
-        <Link to="/signup" className="hover:text-blue-400 transition-all duration-300">Sign Up</Link>
-    </>
-)}
+          {!isLoggedIn ? (
+            <>
+              <Link to="/login" className="hover:text-pink-400">Login</Link>
+              <Link to="/signup" className="hover:text-pink-400">Sign Up</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/profile" className="hover:text-pink-400">{user?.username || 'Profile'}</Link>
+              <Link to="/cart" className="hover:text-pink-400">Cart</Link>
+              <Link to="/favourite" className="hover:text-pink-400">Wishlist</Link>
+              <button
+                onClick={handleLogout}
+                className="bg-pink-500 text-black px-3 py-1 rounded hover:bg-pink-600 transition"
+              >
+                Logout
+              </button>
+            </>
+          )}
+        </div>
 
-                    <button 
-                        className='block md:hidden text-white text-2xl hover:text-zinc-400'
-                        onClick={() => setMobileNav(MobileNav === "hidden" ? "block" : "hidden")}
-                    >
-                        <FaGripLines />
-                    </button>
-                </div>
-            </nav>
-            <div className={`${MobileNav} bg-zinc-800 h-screen absolute top-0 left-0 w-full z-40 flex flex-col items-center justify-center`}>
-                {links.map((items, i) => (
-                    <Link 
-                        to={items.link} 
-                        className="text-white text-4xl mb-8 font-semibold hover:text-blue-400 transition-all duration-300" 
-                        key={i}
-                        onClick={() => setMobileNav("hidden")}
-                    >
-                        {items.title}
-                    </Link>
-                ))}
-                {!isLoggedIn && (
-                    <>
-                        <Link 
-                            to="/login" 
-                            className="px-8 mb-8 text-3xl py-2 border border-blue-400 rounded text-white hover:bg-white hover:text-zinc-800"
-                        >
-                            Login
-                        </Link>
-                        <Link 
-                            to="/signup" 
-                            className="px-8 mb-8 text-3xl py-2 bg-blue-400 rounded hover:bg-white hover:text-black"
-                        >
-                            Sign Up
-                        </Link>
-                    </>
-                )}
-            </div>
-        </>
-    );
-}
+        {/* Mobile Menu Toggle */}
+        <div className="md:hidden">
+          <button onClick={toggleMenu} className="text-white">
+            {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Dropdown Menu */}
+      {isOpen && (
+        <div className="md:hidden flex flex-col gap-4 px-4 pb-4 text-white bg-zinc-800">
+          <Link to="/" onClick={toggleMenu} className="hover:text-pink-400">Home</Link>
+          <Link to="/all-books" onClick={toggleMenu} className="hover:text-pink-400">Books</Link>
+          <Link to="/about-us" onClick={toggleMenu} className="hover:text-pink-400">About</Link>
+
+          {!isLoggedIn ? (
+            <>
+              <Link to="/login" onClick={toggleMenu} className="hover:text-pink-400">Login</Link>
+              <Link to="/signup" onClick={toggleMenu} className="hover:text-pink-400">Sign Up</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/profile" onClick={toggleMenu} className="hover:text-pink-400">{user?.username || 'Profile'}</Link>
+              <Link to="/cart" onClick={toggleMenu} className="hover:text-pink-400">Cart</Link>
+              <Link to="/favourite" onClick={toggleMenu} className="hover:text-pink-400">Wishlist</Link>
+              <button
+                onClick={() => {
+                  handleLogout();
+                  toggleMenu();
+                }}
+                className="bg-pink-500 text-black px-3 py-1 rounded hover:bg-pink-600 transition text-left"
+              >
+                Logout
+              </button>
+            </>
+          )}
+        </div>
+      )}
+    </nav>
+  );
+};
 
 export default Navbar;
