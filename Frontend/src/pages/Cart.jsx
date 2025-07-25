@@ -38,10 +38,16 @@ const Cart = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:1000/api/remove-from-cart/${bookId}`,
+        `http://localhost:1000/api/remove-from-cart`,
         {},
-        { headers }
+        {
+          headers: {
+            ...headers,
+            bookid: bookId, // add bookid to headers
+          },
+        }
       );
+
       alert(response.data.message);
 
       setCart((prevCart) => {
@@ -56,6 +62,12 @@ const Cart = () => {
       });
     } catch (error) {
       console.error("Error removing item from cart:", error);
+
+      if (error.response) {
+        console.error("Status:", error.response.status);
+        console.error("Data:", error.response.data);
+      }
+
       if (error.response?.status === 401) {
         alert("Unauthorized. Please log in again.");
         navigate("/login");
@@ -63,6 +75,7 @@ const Cart = () => {
         alert("Error removing item from cart.");
       }
     }
+
   };
 
   return (
@@ -113,7 +126,7 @@ const Cart = () => {
                       </div>
                     </div>
                     <button
-                      onClick={() => handleRemoveItem(item.id || item._id)}
+                      onClick={() => handleRemoveItem(item._id)}
                       className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
                     >
                       Remove
