@@ -93,59 +93,72 @@ const ViewBookDetails = () => {
   return (
     <>
       {Data && (
-        <div className='px-4 md:px-12 py-8 bg-zinc-900 flex flex-col md:flex-row gap-8 items-start text-white'>
+        <div className='px-4 md:px-12 py-8 bg-zinc-900 flex flex-col md:flex-row gap-10 text-white'>
           {/* Left Section */}
-          <div className='w-full lg:w-3/6'>
-            <div className='flex flex-col items-center bg-zinc-800 p-6 rounded shadow-lg'>
+          <div className='w-full lg:w-1/2'>
+            <div className='bg-zinc-800 p-6 rounded-xl shadow-md flex flex-col items-center'>
               <img
                 src={Data.url}
                 alt="Book cover"
-                className='h-[50vh] lg:h-[70vh] rounded object-cover mb-6'
+                className='h-[50vh] lg:h-[60vh] object-cover rounded mb-6'
               />
 
-              {/* User Buttons (Icons Only) */}
               {isLoggedIn && role === "user" && (
-                <div className="flex gap-6 mt-4">
+                <div className="flex gap-4">
                   <button
                     onClick={handleFavourites}
-                    className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white p-3 rounded-full shadow-md transition transform hover:scale-110"
+                    className="bg-rose-500 hover:bg-rose-600 text-white p-2 rounded-full shadow-md transition"
                     title="Add to Wishlist"
                   >
-                    <IoHeartOutline className="text-2xl" />
+                    <IoHeartOutline className="text-xl" />
                   </button>
-
                   <button
                     onClick={handleCart}
-                    className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white p-3 rounded-full shadow-md transition transform hover:scale-110"
+                    className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition"
                     title="Add to Cart"
                   >
-                    <BsCart3 className="text-2xl" />
+                    <BsCart3 className="text-xl" />
                   </button>
                 </div>
               )}
 
-              {/* Admin Buttons */}
+              {/* Admin Actions */}
               {isLoggedIn && role === "admin" && (
-                <div className="flex flex-col gap-4 w-full mt-6">
+                <div className="flex flex-wrap gap-2 mt-6">
                   <Link
                     to={`/editProduct/${id}`}
-                    className="flex items-center justify-center bg-yellow-500 text-white py-3 px-6 rounded-full shadow-md transition transform hover:scale-105 hover:bg-yellow-600"
+                    className="bg-slate-500 hover:bg-slate-400 text-white text-xs px-3 py-1 rounded flex items-center gap-1"
                   >
-                    Edit
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/3597/3597075.png"
+                      alt="Edit"
+                      className="w-4 h-4"
+                    />
+                    
                   </Link>
 
                   <Link
-                    to={"/addBook"}
-                    className="flex items-center justify-center bg-green-500 text-white py-3 px-6 rounded-full shadow-md transition transform hover:scale-105 hover:bg-green-600"
+                    to="/addBook"
+                    className="bg-slate-500 hover:bg-slate-400 text-white text-xs px-3 py-1 rounded flex items-center gap-1"
                   >
-                    Add Book
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/4683/4683439.png"
+                      alt="Add"
+                      className="w-4 h-4"
+                    />
+                    
                   </Link>
 
                   <button
                     onClick={handleDelete}
-                    className='flex items-center justify-center bg-red-500 text-white py-3 px-6 rounded-full shadow-md transition transform hover:scale-105 hover:bg-red-600'
+                    className="bg-slate-500 hover:bg-slate-400 text-white text-xs px-3 py-1 rounded flex items-center gap-1"
                   >
-                    Delete Book
+                    <img
+                      src="https://www.freeiconspng.com/thumbs/delete-button-png/blue-delete-button-png-29.png"
+                      alt="Delete"
+                      className="w-4 h-4"
+                    />
+                    
                   </button>
                 </div>
               )}
@@ -153,12 +166,12 @@ const ViewBookDetails = () => {
           </div>
 
           {/* Right Section */}
-          <div className="w-full lg:w-3/6">
+          <div className="w-full lg:w-1/2">
             <h1 className="text-3xl font-bold mb-2">{Data.title}</h1>
             <p className="text-lg text-zinc-300 mb-1">by {Data.author}</p>
             <p className="text-sm text-zinc-400 mb-4">{Data.language}</p>
-            <p className="mb-6">{Data.description}</p>
-            <p className="text-2xl font-bold text-green-400">₹ {Data.price}</p>
+            <p className="mb-6 leading-relaxed text-zinc-200">{Data.description}</p>
+            <p className="text-2xl font-semibold text-green-400">₹ {Data.price}</p>
           </div>
         </div>
       )}

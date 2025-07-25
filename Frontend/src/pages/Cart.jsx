@@ -6,6 +6,7 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [loading, setLoading] = useState(true); // Loader state
   const navigate = useNavigate();
 
   const headers = {
@@ -15,6 +16,7 @@ const Cart = () => {
 
   useEffect(() => {
     const fetchCart = async () => {
+      setLoading(true);
       try {
         const res = await axios.get("http://localhost:1000/api/get-user-cart", { headers });
         setCart(res.data.data);
@@ -28,6 +30,8 @@ const Cart = () => {
         setTotal(totalAmount);
       } catch (error) {
         console.error("Failed to fetch cart data:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCart();
@@ -43,7 +47,7 @@ const Cart = () => {
         {
           headers: {
             ...headers,
-            bookid: bookId, // add bookid to headers
+            bookid: bookId,
           },
         }
       );
@@ -75,13 +79,20 @@ const Cart = () => {
         alert("Error removing item from cart.");
       }
     }
-
   };
 
   return (
     <div className="bg-zinc-900 min-h-screen text-white px-4 py-10">
       <div className="max-w-4xl mx-auto">
-        {orderPlaced ? (
+
+        {loading ? (
+          <div className="flex justify-center items-center min-h-[60vh]">
+            <div className="text-center">
+              <div className="border-4 border-white border-t-transparent rounded-full w-12 h-12 animate-spin mx-auto mb-4"></div>
+              <p className="text-lg text-gray-300">Loading your cart...</p>
+            </div>
+          </div>
+        ) : orderPlaced ? (
           <div className="flex flex-col items-center justify-center min-h-[60vh]">
             <h2 className="text-3xl font-bold text-center mb-4">Thank you for your order!</h2>
             <img
@@ -134,6 +145,9 @@ const Cart = () => {
                   </div>
                 );
               })}
+            </div>
+            <div className="mt-8 text-right">
+              <h2 className="text-xl font-semibold">Total: Rs. {total.toFixed(2)}</h2>
             </div>
           </>
         )}
