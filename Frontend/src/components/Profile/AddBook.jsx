@@ -11,9 +11,8 @@ const AddBook = () => {
     language: "",
   });
 
-  const [message, setMessage] = useState(""); // To display success or error messages
+  const [message, setMessage] = useState("");
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -21,7 +20,6 @@ const AddBook = () => {
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -38,11 +36,12 @@ const AddBook = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            id: localStorage.getItem("id"),
+            "Content-Type": "application/json",
           },
         }
       );
-      setMessage(response.data.message); // Display success message
+
+      setMessage(response.data.message || "Book added successfully!");
       setFormData({
         url: "",
         title: "",
@@ -53,14 +52,37 @@ const AddBook = () => {
       });
     } catch (error) {
       console.error("Error adding book:", error);
-      setMessage("Error adding the book. Please try again later.");
+
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+        setMessage(
+          error.response.data.message ||
+            "Failed to add book. Please check your input."
+        );
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        setMessage("No response from server. Is it running?");
+      } else {
+        console.error("Error setting up the request:", error.message);
+        setMessage("Unexpected error occurred.");
+      }
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h2 className="text-2xl font-semibold mb-4">Add New Book</h2>
-      {message && <p className="text-center text-red-500 mb-4">{message}</p>}
+      {message && (
+        <p
+          className={`text-center mb-4 ${
+            message.toLowerCase().includes("success")
+              ? "text-green-600"
+              : "text-red-500"
+          }`}
+        >
+          {message}
+        </p>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* URL */}
         <div>
