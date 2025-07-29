@@ -7,7 +7,7 @@ const Hero = () => {
       {/* Left Content */}
       <div className="w-full md:w-1/2 text-center md:text-left">
         <h1 className="text-4xl lg:text-6xl font-bold text-[#5e3b1c] leading-tight drop-shadow-sm">
-          Rediscover the <span className="text-[#8b5e3c] italic">Joy of Reading</span>
+          Discover the <span className="text-[#8b5e3c] italic">Joy of Reading</span>
         </h1>
         <p className="mt-6 text-lg lg:text-xl text-[#4b3d2a] opacity-80">
           Step into a world of timeless tales and forgotten classics. Vintage, rare, or beloved — explore your kind of story.
@@ -15,7 +15,7 @@ const Hero = () => {
         <div className="mt-8">
           <Link
             to="/all-books"
-            className="bg-[#c49a6c] text-white font-semibold px-8 py-3 rounded-full text-lg shadow-md hover:bg-[#a97c50] transition duration-300"
+            className="bg-[#191007] text-white font-semibold px-8 py-3 rounded-full text-lg shadow-md hover:bg-[#a97c50] transition duration-300"
           >
             Browse Collection
           </Link>

@@ -9,7 +9,7 @@ const RecentlyAdded = () => {
   useEffect(() => {
     const fetchRecentBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:1000/api/get-recent-books");
+        const response = await axios.get("http://localhost:1000/api/admin/get-recent-books");
         setData(response.data.data || []);
       } catch (err) {
         console.error("Failed to fetch recent books", err);

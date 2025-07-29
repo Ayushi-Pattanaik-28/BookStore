@@ -43,7 +43,7 @@ const Profile = () => {
 
   const fetchWishlist = async () => {
     try {
-      const res = await axios.get("http://localhost:1000/api/get-user-wishlist", { headers });
+      const res = await axios.get("http://localhost:1000/api/get-favourite-books", { headers });
       setWishlistItems(res.data.data || []);
     } catch (err) {
       console.error("Wishlist fetch failed:", err);
@@ -74,31 +74,14 @@ const Profile = () => {
     }
   };
 
-  const handleCheckout = async () => {
-  try {
-    const payload = {
-      order: cartItems, // Assuming cartItems is an array of { _id } objects
-    };
-
-    await axios.post("http://localhost:1000/api/place-order", payload, { headers });
-
-    alert("Order placed successfully!");
-    setCartItems([]);
-  } catch (err) {
-    console.error("Checkout failed:", err.response?.data || err.message);
-    alert("Order failed");
-  }
-};
-
-
-  if (!user) return <div className="text-white text-center mt-10">Loading user data...</div>;
+  if (!user) return <div className="text-center text-[#4b3d2a] font-serif mt-10">Loading user data...</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-900 text-white px-4 py-10">
+    <div className="min-h-screen bg-[#c49a6c] px-6 py-12 sm:px-12 lg:px-24 text-[#4b3d2a] font-serif">
       {/* Profile Info */}
-      <div className="w-full max-w-3xl bg-gradient-to-r from-indigo-500 via-purple-700 to-pink-500 p-8 rounded-lg shadow-lg mb-8">
-        <h1 className="text-3xl font-bold text-black mb-6 text-center">User Profile</h1>
-        <div className="text-black font-medium space-y-4">
+      <div className="w-full max-w-3xl mx-auto bg-[#f9efe2] border border-[#e0d2b8] p-10 rounded-xl shadow-lg mb-12">
+        <h1 className="text-3xl font-bold text-center text-[#7b4a32] mb-6 border-b pb-2 border-[#c49a6c]">User Profile</h1>
+        <div className="space-y-3 text-lg">
           <p><span className="font-semibold">Username:</span> {user.username}</p>
           <p><span className="font-semibold">Email:</span> {user.email}</p>
           <p><span className="font-semibold">Role:</span> {user.role}</p>
@@ -113,20 +96,20 @@ const Profile = () => {
       </div>
 
       {/* Wishlist */}
-      <div className="w-full max-w-3xl bg-zinc-800 p-6 rounded-lg mb-6 shadow-md">
-        <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
-          <IoHeartOutline className="text-pink-400 text-2xl" />
+      <div className="w-full max-w-3xl mx-auto bg-[#f9efe2] border border-[#e0d2b8] p-8 rounded-xl shadow-md mb-10">
+        <h2 className="text-2xl font-bold flex items-center gap-2 mb-5 text-[#5e3b1c]">
+          <IoHeartOutline className="text-[#8b5e3c] text-2xl" />
           Wishlist ({wishlistItems.length})
         </h2>
         {wishlistItems.length === 0 ? (
-          <p className="text-zinc-400">Your wishlist is empty.</p>
+          <p className="text-[#6e5843] opacity-80">Your wishlist is empty.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {wishlistItems.map((book) => (
-              <div key={book._id} className="bg-zinc-700 p-4 rounded shadow">
-                <h3 className="text-lg font-semibold">{book.title}</h3>
-                <p className="text-sm text-zinc-400">{book.author}</p>
-                <p className="text-green-400 font-bold">₹{book.price}</p>
+              <div key={book._id} className="bg-[#fffaf1] border border-[#e0d2b8] p-5 rounded shadow hover:shadow-md">
+                <h3 className="text-lg font-semibold text-[#4b3d2a]">{book.title}</h3>
+                <p className="text-sm text-[#6e5843] italic">{book.author}</p>
+                <p className="text-green-700 font-bold">₹{book.price}</p>
                 <button
                   onClick={() => handleRemoveFromWishlist(book._id)}
                   className="mt-2 text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
@@ -140,21 +123,21 @@ const Profile = () => {
       </div>
 
       {/* Cart */}
-      <div className="w-full max-w-3xl bg-zinc-800 p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
-          <BsCart3 className="text-cyan-400 text-2xl" />
+      <div className="w-full max-w-3xl mx-auto bg-[#f9efe2] border border-[#e0d2b8] p-8 rounded-xl shadow-md">
+        <h2 className="text-2xl font-bold flex items-center gap-2 mb-5 text-[#5e3b1c]">
+          <BsCart3 className="text-[#4b3d2a] text-2xl" />
           Cart ({cartItems.length})
         </h2>
         {cartItems.length === 0 ? (
-          <p className="text-zinc-400">Your cart is empty.</p>
+          <p className="text-[#6e5843] opacity-80">Your cart is empty.</p>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {cartItems.map((book) => (
-                <div key={book._id} className="bg-zinc-700 p-4 rounded shadow">
-                  <h3 className="text-lg font-semibold">{book.title}</h3>
-                  <p className="text-sm text-zinc-400">{book.author}</p>
-                  <p className="text-green-400 font-bold">₹{book.price}</p>
+                <div key={book._id} className="bg-[#fffaf1] border border-[#e0d2b8] p-5 rounded shadow hover:shadow-md">
+                  <h3 className="text-lg font-semibold text-[#4b3d2a]">{book.title}</h3>
+                  <p className="text-sm text-[#6e5843] italic">{book.author}</p>
+                  <p className="text-green-700 font-bold">₹{book.price}</p>
                   <button
                     onClick={() => handleRemoveFromCart(book._id)}
                     className="mt-2 text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
@@ -163,16 +146,6 @@ const Profile = () => {
                   </button>
                 </div>
               ))}
-            </div>
-
-            {/* Checkout Button */}
-            <div className="mt-6 flex justify-end">
-              <button
-                onClick={handleCheckout}
-                className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-200"
-              >
-                Place Order
-              </button>
             </div>
           </>
         )}

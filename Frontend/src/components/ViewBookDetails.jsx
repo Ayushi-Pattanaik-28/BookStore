@@ -18,7 +18,7 @@ const ViewBookDetails = () => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await axios.get(`http://localhost:1000/api/get-book-by-id/${id}`);
+        const response = await axios.get(`http://localhost:1000/api/admin/get-book-by-id/${id}`);
         setData(response.data.data);
       } catch (err) {
         setError("Failed to load book data.");
@@ -72,7 +72,7 @@ const ViewBookDetails = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete("http://localhost:1000/api/delete-book", { headers });
+      const response = await axios.delete("http://localhost:1000/api/admin/delete-book", { headers });
 
       if (response.status === 200) {
         alert(response.data.message);
@@ -107,14 +107,14 @@ const ViewBookDetails = () => {
                 <div className="flex gap-4">
                   <button
                     onClick={handleFavourites}
-                    className="bg-[#c98860] hover:bg-[#a8704f] text-white p-2 rounded-full shadow-md transition"
+                    className="bg-red-600 hover:bg-red-800 text-white p-2 rounded-full shadow-md transition"
                     title="Add to Wishlist"
                   >
                     <IoHeartOutline className="text-xl" />
                   </button>
                   <button
                     onClick={handleCart}
-                    className="bg-[#9eb384] hover:bg-[#7b9a67] text-white p-2 rounded-full shadow-md transition"
+                    className="bg-green-600 hover:bg-green-800 text-white p-2 rounded-full shadow-md transition"
                     title="Add to Cart"
                   >
                     <BsCart3 className="text-xl" />

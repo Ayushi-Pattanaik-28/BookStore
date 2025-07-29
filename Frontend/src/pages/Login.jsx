@@ -39,48 +39,52 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-zinc-900 text-white px-10 py-8 min-h-screen flex items-center justify-center">
-      <div className="w-[300px] bg-zinc-800 rounded-xl shadow-md p-5">
-        <h2 className="text-xl font-bold mb-4 text-center text-pink-400">Log In</h2>
+    <div className="bg-[#c49a6c] min-h-screen flex items-center justify-center px-6 py-12 font-serif text-[#4b3d2a]">
+      <div className="w-full max-w-sm bg-[#f9efe2] border border-[#e0d2b8] p-8 rounded-xl shadow-lg">
+        <h2 className="text-3xl font-bold mb-6 text-center text-[#7b4a32] border-b pb-2 border-[#c49a6c]">
+          Welcome Back
+        </h2>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div>
-            <label htmlFor="username" className="block text-xs font-medium mb-1">Username</label>
+            <label htmlFor="username" className="block text-sm font-medium mb-1">Username</label>
             <input
               type="text"
               name="username"
               id="username"
               value={values.username}
               onChange={(e) => setValues({ ...values, username: e.target.value })}
-              placeholder="Username"
-              className="w-full px-2 py-1.5 text-sm rounded bg-zinc-700 border border-zinc-600 focus:ring-1 focus:ring-pink-500 outline-none"
+              placeholder="Enter your username"
+              className="w-full px-3 py-2 text-sm rounded bg-[#fffaf1] border border-[#d6c4a4] focus:outline-none focus:ring-2 focus:ring-[#c49a6c]"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-xs font-medium mb-1">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium mb-1">Password</label>
             <input
               type="password"
               name="password"
               id="password"
               value={values.password}
               onChange={(e) => setValues({ ...values, password: e.target.value })}
-              placeholder="Password"
-              className="w-full px-2 py-1.5 text-sm rounded bg-zinc-700 border border-zinc-600 focus:ring-1 focus:ring-pink-500 outline-none"
+              placeholder="Enter your password"
+              className="w-full px-3 py-2 text-sm rounded bg-[#fffaf1] border border-[#d6c4a4] focus:outline-none focus:ring-2 focus:ring-[#c49a6c]"
             />
           </div>
         </div>
 
         <button
           onClick={handleSubmit}
-          className="mt-5 w-full bg-pink-500 hover:bg-pink-600 text-white text-sm font-medium py-2 rounded transition"
+          className="mt-6 w-full bg-[#4b3d2a] hover:bg-[#3a2a1c] text-white text-sm font-semibold py-2.5 rounded transition-colors"
         >
           Log In
         </button>
 
-        <p className="text-center text-xs mt-3 text-zinc-400">
+        <p className="text-center text-xs mt-4 text-[#6e5843]">
           Don’t have an account?{' '}
-          <Link to="/signup" className="text-pink-400 hover:underline">Sign up</Link>
+          <Link to="/signup" className="text-[#8b5e3c] hover:underline font-medium">
+            Sign up
+          </Link>
         </p>
       </div>
     </div>

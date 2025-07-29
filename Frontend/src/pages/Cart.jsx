@@ -6,7 +6,7 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [orderPlaced, setOrderPlaced] = useState(false);
-  const [loading, setLoading] = useState(true); // Loader state
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const headers = {
@@ -66,12 +66,6 @@ const Cart = () => {
       });
     } catch (error) {
       console.error("Error removing item from cart:", error);
-
-      if (error.response) {
-        console.error("Status:", error.response.status);
-        console.error("Data:", error.response.data);
-      }
-
       if (error.response?.status === 401) {
         alert("Unauthorized. Please log in again.");
         navigate("/login");
@@ -82,19 +76,20 @@ const Cart = () => {
   };
 
   return (
-    <div className="bg-zinc-900 min-h-screen text-white px-4 py-10">
-      <div className="max-w-4xl mx-auto">
+    <div className='bg-[#c49a6c]'>
+    <div className="min-h-screen bg-[url('https://www.transparenttextures.com/patterns/cream-dust.png')] bg-repeat text-[#3e2c1c] px-4 py-10 font-serif">
+      <div className="max-w-4xl mx-auto border-2 border-[#c4a484] bg-[#fdf6e3] p-8 rounded-lg shadow-lg">
 
         {loading ? (
           <div className="flex justify-center items-center min-h-[60vh]">
             <div className="text-center">
-              <div className="border-4 border-white border-t-transparent rounded-full w-12 h-12 animate-spin mx-auto mb-4"></div>
-              <p className="text-lg text-gray-300">Loading your cart...</p>
+              <div className="border-4 border-[#c4a484] border-t-transparent rounded-full w-12 h-12 animate-spin mx-auto mb-4"></div>
+              <p className="text-lg text-[#7d5a3a]">Loading your cart...</p>
             </div>
           </div>
         ) : orderPlaced ? (
           <div className="flex flex-col items-center justify-center min-h-[60vh]">
-            <h2 className="text-3xl font-bold text-center mb-4">Thank you for your order!</h2>
+            <h2 className="text-3xl font-bold mb-4">Thank you for your order!</h2>
             <img
               src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-illustration-download-in-svg-png-gif-file-formats--shopping-ecommerce-simple-error-state-pack-user-interface-illustrations-6024626.png"
               alt="Order placed"
@@ -112,8 +107,8 @@ const Cart = () => {
           </div>
         ) : (
           <>
-            <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
-            <div className="grid grid-cols-1 gap-5">
+            <h1 className="text-4xl font-bold mb-8 border-b-2 border-[#c4a484] pb-2"></h1>
+            <div className="grid grid-cols-1 gap-6">
               {cart.map((item) => {
                 const price = parseFloat(item.price);
                 const quantity = parseInt(item.quantity) || 1;
@@ -122,23 +117,23 @@ const Cart = () => {
                 return (
                   <div
                     key={item._id}
-                    className="flex items-center justify-between bg-gray-800 p-4 rounded-lg shadow-sm hover:shadow-md transition"
+                    className="flex items-center justify-between bg-[#f5e9d3] border border-[#c4a484] p-4 rounded-md shadow-inner"
                   >
                     <div className="flex items-center space-x-4">
                       <img
                         src={item.url}
                         alt={item.title}
-                        className="w-20 h-20 object-cover rounded-md border border-gray-700"
+                        className="w-20 h-20 object-cover rounded-md border border-[#b08d57]"
                       />
                       <div>
-                        <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-                        <p className="text-sm text-gray-400">Qty: {quantity}</p>
-                        <p className="text-green-400 font-medium mt-1">Rs. {totalPrice.toFixed(2)}</p>
+                        <h3 className="text-lg font-semibold">{item.title}</h3>
+                        <p className="text-sm text-[#6b4c2e]">Qty: {quantity}</p>
+                        <p className="text-[#2b542c] font-medium mt-1">Rs. {totalPrice.toFixed(2)}</p>
                       </div>
                     </div>
                     <button
                       onClick={() => handleRemoveItem(item._id)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
+                      className="bg-[#8b2e2e] hover:bg-[#a84242] text-white px-4 py-2 rounded-md text-sm"
                     >
                       Remove
                     </button>
@@ -147,11 +142,12 @@ const Cart = () => {
               })}
             </div>
             <div className="mt-8 text-right">
-              <h2 className="text-xl font-semibold">Total: Rs. {total.toFixed(2)}</h2>
+              <h2 className="text-xl font-bold border-t pt-4 border-[#c4a484]">Total: Rs. {total.toFixed(2)}</h2>
             </div>
           </>
         )}
       </div>
+    </div>
     </div>
   );
 };
