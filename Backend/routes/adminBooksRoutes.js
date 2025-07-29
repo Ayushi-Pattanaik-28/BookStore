@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Book = require("../models/Book"); // Assuming you have a Book model
+const Book = require("../models/book"); // Assuming you have a Book model
 const verifyToken = require("./userAuth").authenticateToken; // Import the authentication middleware
 
 // ✅ Add a book
