@@ -15,7 +15,7 @@ const AllBooks = () => {
   }, []);
 
   return (
-    <div className='bg-zinc-900 h-auto px-12 py-8'>
+    <div className='bg-[#c49a6c] h-auto px-12 py-8'>
       <h4 className='text-3xl text-yellow-100'>All books</h4>
       <div className='my-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-8'>
         {Data && Data.map((item, i) => (

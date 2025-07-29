@@ -93,28 +93,28 @@ const ViewBookDetails = () => {
   return (
     <>
       {Data && (
-        <div className='px-4 md:px-12 py-8 bg-zinc-900 flex flex-col md:flex-row gap-10 text-white'>
+        <div className="px-4 md:px-12 py-10 bg-[#f5f0e1] text-[#4b3621] font-serif flex flex-col md:flex-row gap-10">
           {/* Left Section */}
-          <div className='w-full lg:w-1/2'>
-            <div className='bg-zinc-800 p-6 rounded-xl shadow-md flex flex-col items-center'>
+          <div className="w-full lg:w-1/2">
+            <div className="bg-[#e6dbc4] p-6 rounded-xl shadow-[4px_4px_0px_#cbb994] flex flex-col items-center">
               <img
                 src={Data.url}
                 alt="Book cover"
-                className='h-[50vh] lg:h-[60vh] object-cover rounded mb-6'
+                className="h-[50vh] lg:h-[60vh] object-cover rounded border-2 border-[#a67c52] mb-6"
               />
 
               {isLoggedIn && role === "user" && (
                 <div className="flex gap-4">
                   <button
                     onClick={handleFavourites}
-                    className="bg-rose-500 hover:bg-rose-600 text-white p-2 rounded-full shadow-md transition"
+                    className="bg-[#c98860] hover:bg-[#a8704f] text-white p-2 rounded-full shadow-md transition"
                     title="Add to Wishlist"
                   >
                     <IoHeartOutline className="text-xl" />
                   </button>
                   <button
                     onClick={handleCart}
-                    className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition"
+                    className="bg-[#9eb384] hover:bg-[#7b9a67] text-white p-2 rounded-full shadow-md transition"
                     title="Add to Cart"
                   >
                     <BsCart3 className="text-xl" />
@@ -127,38 +127,23 @@ const ViewBookDetails = () => {
                 <div className="flex flex-wrap gap-2 mt-6">
                   <Link
                     to={`/editProduct/${id}`}
-                    className="bg-slate-500 hover:bg-slate-400 text-white text-xs px-3 py-1 rounded flex items-center gap-1"
+                    className="bg-[#a67c52] hover:bg-[#8a643e] text-white text-xs px-3 py-1 rounded"
                   >
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/3597/3597075.png"
-                      alt="Edit"
-                      className="w-4 h-4"
-                    />
-                    
+                    ✏️ Edit
                   </Link>
 
                   <Link
                     to="/addBook"
-                    className="bg-slate-500 hover:bg-slate-400 text-white text-xs px-3 py-1 rounded flex items-center gap-1"
+                    className="bg-[#a67c52] hover:bg-[#8a643e] text-white text-xs px-3 py-1 rounded"
                   >
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/4683/4683439.png"
-                      alt="Add"
-                      className="w-4 h-4"
-                    />
-                    
+                    ➕ Add
                   </Link>
 
                   <button
                     onClick={handleDelete}
-                    className="bg-slate-500 hover:bg-slate-400 text-white text-xs px-3 py-1 rounded flex items-center gap-1"
+                    className="bg-[#a67c52] hover:bg-[#8a643e] text-white text-xs px-3 py-1 rounded"
                   >
-                    <img
-                      src="https://www.freeiconspng.com/thumbs/delete-button-png/blue-delete-button-png-29.png"
-                      alt="Delete"
-                      className="w-4 h-4"
-                    />
-                    
+                    🗑️ Delete
                   </button>
                 </div>
               )}
@@ -167,11 +152,11 @@ const ViewBookDetails = () => {
 
           {/* Right Section */}
           <div className="w-full lg:w-1/2">
-            <h1 className="text-3xl font-bold mb-2">{Data.title}</h1>
-            <p className="text-lg text-zinc-300 mb-1">by {Data.author}</p>
-            <p className="text-sm text-zinc-400 mb-4">{Data.language}</p>
-            <p className="mb-6 leading-relaxed text-zinc-200">{Data.description}</p>
-            <p className="text-2xl font-semibold text-green-400">₹ {Data.price}</p>
+            <h1 className="text-3xl font-bold mb-2 text-[#5c4033]">{Data.title}</h1>
+            <p className="text-lg text-[#6e4e37] mb-1 italic">by {Data.author}</p>
+            <p className="text-sm text-[#947b63] mb-4">{Data.language}</p>
+            <p className="mb-6 leading-relaxed text-[#4b3621]">{Data.description}</p>
+            <p className="text-2xl font-semibold text-[#648b60]">₹ {Data.price}</p>
           </div>
         </div>
       )}

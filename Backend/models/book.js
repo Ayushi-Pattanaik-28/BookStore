@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const book = new mongoose.Schema(
+const bookSchema = new mongoose.Schema(
   {
     url: {
       type: String,
@@ -30,5 +30,5 @@ const book = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ✅ Prevent OverwriteModelError
-module.exports = mongoose.models.books || mongoose.model("books", book);
+// Prevent OverwriteModelError
+module.exports = mongoose.models.books || mongoose.model("books", bookSchema);

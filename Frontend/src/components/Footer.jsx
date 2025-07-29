@@ -1,11 +1,18 @@
-import React from 'react'
+import React from 'react';
 
 const Footer = () => {
   return (
-    <div className='bg-zinc-800 text-white px-8 py-4'>
-      <h1 className='text-xl font-semibold text-center'>&copy; 2024</h1>
-    </div>
-  )
-}
+    <footer className="bg-[#f5ecd2] text-[#4b3621] border-t border-[#d6c5a5] py-6 font-serif">
+      <div className="max-w-6xl mx-auto text-center">
+        <p className="text-md md:text-lg font-medium tracking-wide">
+          © 2024 BookVerse — All Rights Reserved.
+        </p>
+        <p className="text-sm mt-1 italic text-[#6b4e2e]">
+          Crafted with care for book lovers everywhere 📚
+        </p>
+      </div>
+    </footer>
+  );
+};
 
-export default Footer
+export default Footer;
