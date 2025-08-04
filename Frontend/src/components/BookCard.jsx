@@ -24,16 +24,18 @@ const BookCard = ({ data, favourite }) => {
   };
 
   return (
-    <div className="font-serif">
+    <div className="font-serif w-[220px] h-full p-4 flex flex-col">
+
       <Link to={`/view-book-details/${data._id}`}>
         <div className="bg-[#f5ecd2] p-4 rounded-lg border border-[#d5c3aa] shadow-md hover:shadow-lg transition flex flex-col items-center">
           <img
             src={data.url}
             alt="Book cover"
-            className="h-[25vh] w-[150px] mb-4 rounded border border-[#c1aa8b] shadow-sm"
+            className="h-[200px] w-[210px] mb-4 rounded border border-[#c1aa8b] shadow-sm"
           />
-          <h2 className="text-lg text-[#3e2c1c] font-bold mb-1 text-center">{data.title}</h2>
-          <p className="text-[#5c4327] text-sm italic mb-1">by {data.author}</p>
+          <h2 className="text-sm font-bold text-[#3e2c1c] from-neutral-100 mb-1 text-center">{data.title}</h2>
+          {/* <p className="text-[#5c4327] text-xs italic mb-1">by {data.author}</p> */}
+          <p className="text-zinc-500 font-semibold text-xs italic mb-1">by {data.author}</p>
           <p className="text-[#4e3b25] font-semibold text-base">Rs. {data.price}</p>
         </div>
       </Link>

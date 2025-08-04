@@ -32,7 +32,7 @@ const AddBook = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:1000/api/add-book",
+        "http://localhost:1000/api/admin/add-book",
         formData,
         {
           headers: {

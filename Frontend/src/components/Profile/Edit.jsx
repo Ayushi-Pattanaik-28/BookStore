@@ -50,7 +50,7 @@ const Edit = () => {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'bookid': id
             };
-            const response = await axios.put("http://localhost:1000/api/update-book", bookDetails, { headers });
+            const response = await axios.put("http://localhost:1000/api/admin/update-book", bookDetails, { headers });
 
             alert(response.data.message); 
             navigate(`/view-book-details/${id}`); // Redirect back to the book details page

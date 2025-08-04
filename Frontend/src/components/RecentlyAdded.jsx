@@ -22,7 +22,7 @@ const RecentlyAdded = () => {
 
   return (
     <div className="mt-12 px-4 sm:px-8 md:px-12 lg:px-20">
-      <h2 className="text-3xl font-semibold text-[#A26769] mb-6 border-b border-[#874C62] pb-2">
+      <h2 className="text-3xl font-semibold text-[#461214] mb-6 border-b border-[#874C62] pb-2">
 
         📚 Recently Added Books
       </h2>
@@ -32,7 +32,7 @@ const RecentlyAdded = () => {
       ) : data.length === 0 ? (
         <div className="text-gray-300">No recent books found.</div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {data.map((book, i) => (
             <BookCard key={i} data={book} />
           ))}
